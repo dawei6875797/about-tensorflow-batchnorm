@@ -3,6 +3,8 @@ the usage of tensorflow batchnorm
 1. pay attention to the 'training' phase or 'test' phase
 2. pay attention to updating the moving averages of mean and var and save them in your mode.
 
+If you want to use BN in contrib layers, you should read this discussion:https://github.com/tensorflow/tensorflow/issues/4361
+
 If you choose to use the implementation of BN in https://github.com/tensorflow/models/blob/master/resnet/resnet_model.py, 
 
     def batch_norm(self, name, x):
