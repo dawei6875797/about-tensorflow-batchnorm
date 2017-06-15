@@ -3,8 +3,8 @@ the usage of tensorflow batchnorm
 1. pay attention to the 'training' phase or 'test' phase of batch_norm of tensorflow version
 2. pay attention to updating the moving averages of mean and var 
 if you choose to use the implementation of BN in https://github.com/tensorflow/models/blob/master/resnet/resnet_model.py, 
-  # TODO(xpan): Consider batch_norm in contrib/layers/python/layers/layers.py
-  def _batch_norm(self, name, x):
+
+  def batch_norm(self, name, x):
     """Batch normalization."""
     with tf.variable_scope(name):
       params_shape = [x.get_shape()[-1]]
@@ -48,5 +48,8 @@ if you choose to use the implementation of BN in https://github.com/tensorflow/m
           x, mean, variance, beta, gamma, 0.001)
       y.set_shape(x.get_shape())
       return y
-note that you add the 'moving_mean' and 'moving_variance' in your saver's variable list, otherwise you may get excellent results at training phase but you get much worse results at test stage when you set mode='test'. This is because you do not save the accumulated mean and var  but inference needs them.
+note that you add the 'moving_mean' and 'moving_variance' in your saver's variable list, otherwise you may get excellent results at training phase but you get much worse results at test stage when you set mode='test'. This is because you do not save the accumulated mean and var but inference needs them.
+
 What's more, to train a model with batchnorm, you code should like this:
+    train_ops = [apply_gradients_op] + self._extra_train_ops
+    self.train_op = tf.group(*train_ops)
