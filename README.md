@@ -1,7 +1,7 @@
 # about-tensorflow-batchnorm
 the usage of tensorflow batchnorm
 1. pay attention to the 'training' phase or 'test' phase
-2. pay attention to updating the moving averages of mean and var and save them in your mode.
+2. pay attention to updating the moving averages of mean and var and save them in your model.
 
 If you want to use BN in contrib layers, you should read this discussion:https://github.com/tensorflow/tensorflow/issues/4361
 
