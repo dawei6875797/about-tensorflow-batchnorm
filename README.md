@@ -53,7 +53,12 @@ If you choose to use the implementation of BN in https://github.com/tensorflow/m
         return y
 note that you add the 'moving_mean' and 'moving_variance' in your saver's variable list, otherwise you may get excellent results at training phase but you get much worse results at test stage when you set mode='test'. This is because you do not save the accumulated mean and var but inference needs them.
 
-What's more, to train a model with batchnorm, you code should like this:
+What's more, to train a model with batchnorm, your code should like this:
 
     train_ops = [apply_gradients_op] + self._extra_train_ops
     self.train_op = tf.group(*train_ops)
+    
+If you use tensorflow own's tf.contrib.layers.batch_norm, then your code should like this:
+      update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+      with tf.control_dependencies(update_ops):
+        train_op = optimizer.minimize(loss)
